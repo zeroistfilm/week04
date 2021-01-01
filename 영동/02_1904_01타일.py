@@ -1,10 +1,17 @@
 # https://www.acmicpc.net/problem/1904
 
 import sys
+from collections import deque
 n = int(sys.stdin.readline())
-dp=[0]*1000001
-dp[1]=1
-dp[2]=2
-for i in range(3,n+1):
-    dp[i] = (dp[i-2]+dp[i-1])%15746
-print(dp[n])
+if n<3:
+    print(n)
+    exit()
+queue=deque([])
+queue.append(1)
+queue.append(2)
+for i in range(n-2):
+    n1 = queue.popleft()
+    n2 = queue[0]
+    n3 = (n1+n2)%15746
+    queue.append(n3)
+print(queue.pop())
