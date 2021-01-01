@@ -1,19 +1,10 @@
 # https://www.acmicpc.net/problem/1904
 
 import sys
-sys.setrecursionlimit(10**9)
-tile={}
-def solve(n):
-
-    if n in tile:
-        return n
-    if n<=3:
-        return n
-    else:
-        f = (solve(n-1)+solve(n-2))%15746
-        tile[n]=f
-        if len(tile) >= 3:
-            del tile[n - 2]
-        return f
-
-print(solve(int(sys.stdin.readline())))
+n = int(sys.stdin.readline())
+dp=[0]*1000001
+dp[1]=1
+dp[2]=2
+for i in range(3,n+1):
+    dp[i] = (dp[i-2]+dp[i-1])%15746
+print(dp[n])
