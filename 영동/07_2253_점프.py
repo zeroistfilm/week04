@@ -1,49 +1,28 @@
-# https://www.acmicpc.net/problem/2253
 import sys
+from math import sqrt
+input = sys.stdin.readline
 
-INF =9999
-sys.stdin = open("input.txt", "r")
-N,M = map(int, sys.stdin.readline().split())
-stone = []
-for i in range(M):
-    index =int(sys.stdin.readline())
-    stone.append(index)
-DP=[[0 for i in range(N+1)]for i in range(int((N**0.5))+N)]
-#dp인덱스 나중에 수정하기
-for i in range(len(DP)):
-    DP[i][-1]= INF
 
-recursive = 0
-def jump(node,velo,count):
-    global recursive
-    recursive+=1
-    if node > N:
-        return
-    if node in stone:  # 트랩임.
-        return
+def solve():
+    N, M = map(int, input().split())
 
-    if DP[velo][node] == 0 or DP[velo][node] == INF:
-        DP[velo][node] = count
-    else:
-        return
+    dp = [[float('inf')]*(int(1.5*(N**0.5) + 2)) for _ in range(N+1)]
+    dp[1][0] = 0
+    trap = set()
+    for _ in range(M):
+        trap.add(int(input()))
 
-    if node==1:
-        DP[velo][node] = 's'
-        node+=velo
-        jump(node,velo,count+1)
-    for v in [velo+1,velo, velo-1]:
-        if v<=0:
+    for i in range(2, N+1):
+        if i in trap:
             continue
-        else:
-            if node > N:
-                return
+        for v in range(1, int(sqrt(2*i))+1):
+            dp[i][v] = min(dp[i-v][v-1], dp[i-v][v], dp[i-v][v+1]) + 1
 
-            jump(node+v, v, count + 1)
+    result = min(dp[N])
+    if result == float('inf'):
+        print(-1)
+    else:
+        print(result)
 
-jump(node=1,velo=1,count=0)
-#print(recursive)
-result =min(DP[i][-1] for i in range(len(DP)))
-if result ==INF:
-    print(-1)
-else:
-    print(result)
+
+solve()

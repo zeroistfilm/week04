@@ -11,7 +11,6 @@ DP = [[None] * (1 << N) for _ in range(N)]
 
 
 def find_path(last, visited):
-    showbi = bin(visited)
     # 모든곳을 방문했을떄
     # DP에 값이 있을 떄
 

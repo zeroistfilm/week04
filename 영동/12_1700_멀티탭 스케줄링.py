@@ -1,6 +1,7 @@
 # https://www.acmicpc.net/problem/1700
 
 import sys
+sys.stdin = open("input.txt", "r")
 N, K = map(int, sys.stdin.readline().split())
 items=list(map(int,sys.stdin.readline().strip().split()))
 soket=[0 for i in range(N)]
